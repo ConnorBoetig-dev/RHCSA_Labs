@@ -1,0 +1,24 @@
+workspace/analysis/application.log:2024-01-15 08:01:34.456 ERROR NullPointerException in UserService.getUser()
+workspace/analysis/application.log:2024-01-15 08:03:12.234 ERROR Database query failed: connection timeout
+workspace/analysis/application.log:2024-01-15 08:04:23.456 ERROR Failed to parse JSON: unexpected token at position 234
+workspace/analysis/application.log:2024-01-15 08:06:45.123 ERROR FileNotFoundException: /data/config.xml not found
+workspace/analysis/application.log:2024-01-15 08:08:12.789 ERROR Authentication failed: invalid token
+workspace/analysis/application.log:2024-01-15 08:10:34.456 ERROR IndexOutOfBoundsException: Index 10 out of bounds for length 5
+workspace/analysis/application.log:2024-01-15 08:12:56.123 ERROR Connection pool exhausted: no available connections
+workspace/analysis/system.log:2024-01-15 08:19:34 ERROR Failed to connect to database server
+workspace/analysis/system.log:2024-01-15 08:20:05 ERROR Database connection failed: timeout exceeded
+workspace/analysis/system.log:2024-01-15 08:27:09 ERROR Process crashed: segmentation fault in module xyz
+workspace/analysis/system.log:2024-01-15 08:35:47 ERROR Backup failed: insufficient permissions
+workspace/analysis/system.log:2024-01-15 08:45:01 ERROR Network timeout on interface eth0
+logs/application.log:2024-01-15 08:01:34.456 ERROR NullPointerException in UserService.getUser()
+logs/application.log:2024-01-15 08:03:12.234 ERROR Database query failed: connection timeout
+logs/application.log:2024-01-15 08:04:23.456 ERROR Failed to parse JSON: unexpected token at position 234
+logs/application.log:2024-01-15 08:06:45.123 ERROR FileNotFoundException: /data/config.xml not found
+logs/application.log:2024-01-15 08:08:12.789 ERROR Authentication failed: invalid token
+logs/application.log:2024-01-15 08:10:34.456 ERROR IndexOutOfBoundsException: Index 10 out of bounds for length 5
+logs/application.log:2024-01-15 08:12:56.123 ERROR Connection pool exhausted: no available connections
+logs/system.log:2024-01-15 08:19:34 ERROR Failed to connect to database server
+logs/system.log:2024-01-15 08:20:05 ERROR Database connection failed: timeout exceeded
+logs/system.log:2024-01-15 08:27:09 ERROR Process crashed: segmentation fault in module xyz
+logs/system.log:2024-01-15 08:35:47 ERROR Backup failed: insufficient permissions
+logs/system.log:2024-01-15 08:45:01 ERROR Network timeout on interface eth0
