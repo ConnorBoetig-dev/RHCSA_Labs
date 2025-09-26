@@ -1,0 +1,73 @@
+RHCSA Lab 02 - File Operations and Permissions
+
+SCENARIO:
+You have been provided a system with various files in the incoming/ directory that need proper
+organization and permissions. As a system administrator, you must organize these files into
+the appropriate workspace directories and set correct permissions for security compliance.
+
+INITIAL EXPLORATION:
+Before starting, run these commands to understand the current state:
+- tree (to see directory structure)
+- ls -la incoming/ (to see files and their current permissions)
+- ls -la workspace/ (to see workspace subdirectories)
+
+TASKS TO COMPLETE:
+
+Task 1: Move Text Files
+Move all .txt files from incoming/ to workspace/documents/
+EXCEPT meeting-notes.txt (this file needs special handling in Task 2)
+
+Task 2: Move and Rename Meeting Notes
+Move meeting-notes.txt from incoming/ to workspace/documents/daily-standup.txt
+(rename the file during the move operation)
+
+Task 3: Create Backup Copy
+Copy app-config.conf from incoming/ to archive/ directory for backup purposes
+(original file should remain in incoming/ for now)
+
+Task 4: Move Configuration File
+Move the original app-config.conf from incoming/ to workspace/configs/
+(after backup copy is made in Task 3)
+
+Task 5: Move Script and Fix Permissions
+Move development-script.sh to workspace/scripts/ and make it executable
+(the script currently lacks execute permissions)
+
+Task 6: Set Configuration File Permissions
+Set permissions on all files in workspace/configs/ directory so that:
+- Owner can read and write
+- Group can read only
+- Others cannot access the file at all
+(Use octal notation: 640)
+
+Task 7: Verify Directory Permissions
+Ensure all workspace directories have standard directory permissions (755):
+- Owner: read, write, execute
+- Group: read, execute
+- Others: read, execute
+
+VERIFICATION:
+Run ./check.sh to verify all tasks are completed correctly.
+The script will check each requirement and display PASS/FAIL status.
+
+SUCCESS CRITERIA:
+- All files properly organized in correct directories
+- No files remain in incoming/ directory
+- Script is executable
+- Configuration files have secure permissions (640)
+- All directories have proper permissions (755)
+
+RESET LAB:
+Run ./setup.sh anytime to completely reset the lab to its initial state.
+
+COMMANDS YOU WILL NEED:
+mv, cp, chmod, ls -la, tree
+
+PERMISSION REFERENCE:
+755 (directories) = rwxr-xr-x (owner: full, group/others: read+execute)
+644 (files) = rw-r--r-- (owner: read+write, group/others: read only)
+640 (secure files) = rw-r----- (owner: read+write, group: read only, others: none)
+755 (scripts) = rwxr-xr-x (executable by all)
+
+TIME ESTIMATE: 10-15 minutes
+DIFFICULTY: Beginner to Intermediate

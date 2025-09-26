@@ -1,0 +1,302 @@
+
+
+* RHCSA Practice * 
+* Started 9/25/25 @10am *
+
+
+
+=================================================
+Understanding whoami vs sudo whoami
+=================================================
+
+Command Breakdown:
+-------------------------------------------
+whoami
+-------------------------------------------
+What It Actually Does: Shows the username of the CURRENT effective user
+Your Result: connorboetig
+Meaning: You are logged in as the regular user "connorboetig"
+
+Command Breakdown:
+-------------------------------------------
+sudo whoami  
+-------------------------------------------
+What It Actually Does: Runs the whoami command AS ROOT, then shows root's username
+Your Result: root
+Meaning: You CAN become root temporarily when needed
+
+Key Distinction:
+- whoami = "Who am I right now?" (Answer: connorboetig)
+- sudo whoami = "Who would I be if I ran this as root?" (Answer: root)
+
+RHCSA Critical Point:
+You DON'T have "root level meaning all access" all the time. You have:
+- Regular user permissions by default (safer)  
+- ABILITY to temporarily become root using sudo (when needed)
+- This is called "privilege escalation"
+
+Why This Matters for RHCSA:
+- Most commands run as your regular user (connorboetig)
+- System administration commands need sudo in front
+- Example: ls /home works as regular user
+- Example: ls /root needs sudo ls /root
+
+Real World Analogy:
+You're like an employee who can borrow the manager's key when needed,
+but you don't carry the manager's key all the time.
+
+
+------------------------------------------------
+
+	
+Command 2: Current User Identity Details
+-------------------------------------------
+id
+-------------------------------------------
+Purpose: Shows your user ID number, group memberships, and security context
+Why Important: Groups determine what you can access and do on the system
+RHCSA Note: User and group management is heavily tested - this shows your baseline
+Expected Output: uid=1000(connorboetig) gid=1000(connorboetig) groups=1000(connorboetig),10(wheel) context=unconfined_u:unconfined_r:unconfined_t:s0-s0:c0.c1023
+
+What to Look For:
+- uid=1000 means you're user #1000 (first regular user created)
+- gid=1000 means your primary group is also #1000 
+- groups shows ALL groups you belong to
+- wheel group (10) is the "sudo group" - that's why sudo works for you
+- context is SELinux security label (advanced topic)
+
+
+------------------------------------------------------
+
+
+
+Command 3: System Version Information
+-------------------------------------------
+cat /etc/redhat-release
+-------------------------------------------
+Purpose: Shows the exact Red Hat Enterprise Linux version you're running
+Why Important: Different RHEL versions have different features and commands
+RHCSA Note: Exam questions may vary based on RHEL version - know what you're working with
+Expected Output: Red Hat Enterprise Linux release 9.6 (Plow)
+
+Additional Version Check:
+-------------------------------------------
+uname -r
+-------------------------------------------
+Purpose: Shows the kernel version currently running
+Why Important: Kernel version affects available features and drivers
+Expected Output: Something like 5.14.0-570.12.1.el9_6.x86_64
+
+Quick Breakdown of Kernel Version:
+- 5.14.0 = Major kernel version
+- 570.12.1 = Red Hat patches/updates  
+- el9_6 = Enterprise Linux 9.6
+- x86_64 = 64-bit architecture
+
+
+-----------------------------------------------------------
+
+
+
+Command 4: Current System Resource Status
+-------------------------------------------
+free -h
+-------------------------------------------
+Purpose: Shows memory (RAM) usage in human-readable format
+Why Important: Understanding available memory helps with performance troubleshooting
+RHCSA Note: You need to monitor system resources and kill processes when needed
+Expected Output: Shows total, used, free, and available memory plus swap usage
+Note: The -h flag makes it humabn readable (shows GB/MB instead of bytes)
+What You'll See:
+- total = Total RAM installed
+- used = Currently used memory  
+- free = Completely unused memory
+- available = Memory available for new programs (most important number)
+- Swap = Virtual memory on disk (should be mostly unused on healthy system)
+
+-------------------------------------------------------------
+
+PATH Environment Variable
+-------------------------------------------
+echo $PATH
+-------------------------------------------
+Purpose: Shows directories the system searches for commands
+Why Important: Understanding why commands work or don't work
+RHCSA Note: PATH determines which commands are available without full paths
+Your Result: /home/connorboetig/.local/bin:/home/connorboetig/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin
+
+PATH Explained Simply:
+When you type a command like "ls", the computer searches these folders IN ORDER:
+1. /home/connorboetig/.local/bin (your personal programs first)
+2. /home/connorboetig/bin (your personal programs second)
+3. /usr/local/bin (system-wide custom programs)
+4. /usr/local/sbin (system admin programs)
+5. /usr/bin (regular user programs - WHERE ls LIVES!)
+6. /usr/sbin (more system admin programs)
+
+Real World Analogy: PATH is like your "search list" for finding car keys
+Without PATH: You'd type /usr/bin/ls every time
+With PATH: You just type ls and computer finds it automatically
+
+Verification Command:
+-------------------------------------------
+which ls
+-------------------------------------------
+Purpose: Shows exactly where a specific command lives
+Your Result: alias ls='ls --color=auto' and /usr/bin/ls
+This shows ls is actually in /usr/bin/ (folder #5 in your PATH)
+
+
+
+---------------------------------------------------------------
+
+
+Command 6: Current Running Processes
+-------------------------------------------
+ps aux | head -10
+-------------------------------------------
+Purpose: Shows the top 10 currently running processes on the system
+Why Important: Understanding what's running helps with troubleshooting and resource management
+RHCSA Note: "Identify CPU/memory intensive processes and kill processes" is a core exam objective
+Your Result: Shows 9 processes, all owned by root, mostly kernel workers
+
+Command Breakdown:
+- ps = process status command
+- aux = flags that show ALL processes with detailed info
+- | head -10 = pipe output to show only first 10 lines
+
+Column Meanings:
+- USER = who owns the process (root, connorboetig, etc.)
+- PID = Process ID number (unique identifier for each process)
+- %CPU = percentage of CPU being used by this process
+- %MEM = percentage of memory being used by this process  
+- VSZ = virtual memory size
+- RSS = resident set size (actual memory used)
+- TTY = terminal type (? means no terminal)
+- STAT = process state (S=sleeping, R=running, etc.)
+- START = when process started
+- TIME = total CPU time used
+- COMMAND = the actual program/command running
+
+Your System Analysis:
+- PID 1: systemd (4.4% CPU, 0.6% memory) - This is ALWAYS first process
+- PIDs 2-9: Kernel worker processes in [brackets]
+- All processes owned by root = system processes
+- Low CPU/memory usage = healthy, idle system
+- Perfect baseline for RHCSA practice
+
+RHCSA Critical Skills:
+- Use PID numbers with kill command to stop processes
+- Look for high %CPU or %MEM to find problem processes
+- systemd (PID 1) is the init system on RHEL 9
+- Processes in [brackets] are kernel threads (cannot be killed)
+- ps command variations: ps -ef, ps -aux, ps -u username
+
+Related Commands for Process Management:
+- top = live updating process list
+- kill [PID] = terminate a process
+- killall [name] = kill all processes with that name
+- pgrep [name] = find PID by process name
+
+---------------------------------------------------------------
+
+Command 6: Current Running Processes
+-------------------------------------------
+ps aux | head -10
+-------------------------------------------
+Purpose: Shows the top 10 currently running processes on the system
+Why Important: Understanding what's running helps with troubleshooting and resource management
+RHCSA Note: "Identify CPU/memory intensive processes and kill processes" is a core exam objective
+Your Result: Shows 9 processes, all owned by root, mostly kernel workers
+
+Command Breakdown:
+- ps = process status command
+- aux = flags that show ALL processes with detailed info
+- | head -10 = pipe output to show only first 10 lines
+
+Column Meanings:
+- USER = who owns the process (root, connorboetig, etc.)
+- PID = Process ID number (unique identifier for each process)
+- %CPU = percentage of CPU being used by this process
+- %MEM = percentage of memory being used by this process  
+- VSZ = virtual memory size
+- RSS = resident set size (actual memory used)
+- TTY = terminal type (? means no terminal)
+- STAT = process state (S=sleeping, R=running, etc.)
+- START = when process started
+- TIME = total CPU time used
+- COMMAND = the actual program/command running
+
+Your System Analysis:
+- PID 1: systemd (4.4% CPU, 0.6% memory) - This is ALWAYS first process
+- PIDs 2-9: Kernel worker processes in [brackets]
+- All processes owned by root = system processes
+- Low CPU/memory usage = healthy, idle system
+- Perfect baseline for RHCSA practice
+
+RHCSA Critical Skills:
+- Use PID numbers with kill command to stop processes
+- Look for high %CPU or %MEM to find problem processes
+- systemd (PID 1) is the init system on RHEL 9
+- Processes in [brackets] are kernel threads (cannot be killed)
+- ps command variations: ps -ef, ps -aux, ps -u username
+
+Related Commands for Process Management:
+- top = live updating process list
+- kill [PID] = terminate a process
+- killall [name] = kill all processes with that name
+- pgrep [name] = find PID by process name
+
+----------------------------------------------------------
+
+Command 7: Network Interface Information
+-------------------------------------------
+ip addr show
+-------------------------------------------
+Purpose: Shows all network interfaces and their IP address configurations
+Why Important: Network connectivity is essential for system administration and services
+RHCSA Note: "Configure IPv4 and IPv6 addresses" and networking tasks require understanding interfaces
+
+Command Breakdown:
+- ip = modern network configuration tool (replaces old ifconfig)
+- addr = address information
+- show = display current configuration
+
+Understanding the Output:
+Interface Types:
+- lo = loopback interface (always 127.0.0.1) - for local system communication
+- eth0/ens160/enp0s3 = physical/virtual network interfaces
+- wlan0 = wireless interfaces
+
+IP Address Information:
+- inet = IPv4 address (example: 192.168.1.100/24)
+- inet6 = IPv6 address (example: fe80::1234:5678/64)
+- /24 or /64 = subnet mask (CIDR notation)
+- scope global = routable address
+- scope link = local network only
+
+Interface States:
+- UP = interface is enabled and active
+- DOWN = interface is disabled
+- NO-CARRIER = physical connection problem
+- LOWER_UP = physical layer is working
+- BROADCAST = supports broadcast packets
+- MULTICAST = supports multicast packets
+
+Common Network Interface Names:
+- ens160 = VMware virtual adapter
+- enp0s3 = VirtualBox virtual adapter  
+- eth0 = traditional Ethernet naming
+- wlan0 = wireless adapter
+
+RHCSA Critical Knowledge:
+- CIDR notation: /24 = 255.255.255.0 subnet mask
+- Link-local IPv6 addresses start with fe80::
+- Multiple addresses can exist on one interface
+- State UP means interface is operational
+
+Related Commands:
+- ip link show = show interfaces without IP details
+- ip route show = display routing table
+- nmcli device status = NetworkManager interface status
+- nmcli connection show = show connection profiles

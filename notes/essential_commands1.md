@@ -1,0 +1,176 @@
+# RHCSA Essential System Discovery Commands
+## Master Reference Card
+
+**Purpose:** First commands to run on any fresh Linux system for situational awareness  
+**When to Use:** Initial login, troubleshooting, exam preparation, system handover  
+**RHCSA Relevance:** Foundation for all other exam objectives
+
+---
+
+## Command 1: Verify Administrative Access
+```bash
+sudo whoami
+```
+**Output:** `root`  
+**Purpose:** Confirms you can execute administrative commands  
+**Key Point:** sudo = temporary privilege escalation, not permanent root access  
+**RHCSA Critical:** Most exam tasks require root privileges via sudo
+
+---
+
+## Command 2: User Identity and Permissions
+```bash
+id
+```
+**Output Example:** `uid=1000(user) gid=1000(user) groups=1000(user),10(wheel)`  
+**Purpose:** Shows user ID, primary group, all group memberships, SELinux context  
+**Key Points:**
+- UID 1000+ = regular users, UID 0 = root
+- wheel group = sudo access
+- Multiple group memberships determine file access permissions
+
+**RHCSA Critical Skills:**
+- `useradd username` = create new user
+- `usermod -aG groupname username` = add user to group
+- `groups username` = show user's groups
+
+---
+
+## Command 3: System Version Information
+```bash
+cat /etc/redhat-release
+uname -r
+```
+**Output Examples:**
+- `Red Hat Enterprise Linux release 9.6 (Plow)`
+- `5.14.0-570.12.1.el9_6.x86_64`
+
+**Purpose:** Identify exact OS version and kernel for compatibility/feature reference  
+**Key Points:**
+- RHEL major versions (8 vs 9) have significant differences
+- Kernel version affects hardware support and features
+
+---
+
+## Command 4: Memory and Resource Status
+```bash
+free -h
+```
+**Output Columns:** total, used, free, shared, buff/cache, available  
+**Purpose:** Assess system resource health and capacity  
+**Key Points:**
+- Available memory is most important metric
+- High swap usage indicates memory pressure
+- Mi = Mebibytes (binary), MB = Megabytes (decimal)
+
+**RHCSA Critical Skills:**
+- `ps aux --sort=-%mem | head` = find memory-hungry processes
+- `kill PID` = terminate processes by Process ID
+- `killall processname` = terminate by name
+
+---
+
+## Command 5: Current Location and Command Path
+```bash
+pwd
+echo $PATH
+```
+**Purpose:** Know your filesystem location and available command locations  
+**Key Points:**
+- pwd = present working directory
+- PATH = directories searched for commands (in order)
+- Commands found earlier in PATH take precedence
+
+**RHCSA Critical Skills:**
+- `which commandname` = find command location
+- `cd /path/to/directory` = change directory
+- `ls -la` = list directory contents with permissions
+
+---
+
+## Command 6: Running Processes Overview
+```bash
+ps aux | head -10
+```
+**Purpose:** Identify active processes and resource consumption  
+**Key Columns:**
+- USER = process owner
+- PID = unique process identifier  
+- %CPU/%MEM = resource usage
+- COMMAND = actual program running
+
+**Process States:**
+- PID 1 = systemd (always first process on RHEL 9)
+- [bracketed] = kernel threads (cannot be killed)
+- High CPU/MEM = potential performance issues
+
+**RHCSA Critical Skills:**
+- `top` = live process monitoring
+- `ps -ef | grep processname` = find specific processes
+- `kill -9 PID` = force kill process
+- `pgrep processname` = find PID by name
+
+---
+
+## Command 7: Network Interface Configuration
+```bash
+ip addr show
+```
+**Purpose:** Display network interface status and IP configurations  
+**Key Information:**
+- Interface names (lo, ens160, eth0, etc.)
+- IPv4 (inet) and IPv6 (inet6) addresses
+- Interface states (UP/DOWN, NO-CARRIER)
+- CIDR notation (/24 = 255.255.255.0)
+
+**RHCSA Critical Skills:**
+- `ip link show` = interface status only
+- `ip route show` = routing table
+- `nmcli device status` = NetworkManager interface status
+- `nmcli connection show` = connection profiles
+
+---
+
+## Command 8: System Service Status
+```bash
+systemctl status
+```
+**Purpose:** Overall systemd health and failed service identification  
+**Key Information:**
+- System state (running/degraded)
+- Failed unit count
+- Active job count
+
+**Service States:**
+- active (running) = working properly
+- active (exited) = completed successfully  
+- inactive (dead) = stopped
+- failed = startup failed
+
+**RHCSA Critical Skills:**
+- `systemctl start servicename` = start service now
+- `systemctl enable servicename` = auto-start at boot
+- `systemctl status servicename` = detailed service status
+- `systemctl list-failed` = show only failed services
+- `journalctl -u servicename` = service logs
+
+---
+
+## Quick Decision Matrix: When to Use Each Command
+
+| Situation | Primary Commands | Purpose |
+|-----------|------------------|---------|
+| Fresh system login | `sudo whoami`, `id`, `pwd` | Verify access and location |
+| Performance issues | `free -h`, `ps aux \| head` | Check resources and processes |
+| Network problems | `ip addr show`, `systemctl status` | Check connectivity and services |
+| Service troubleshooting | `systemctl status`, `ps aux` | Identify failed services |
+| Version compatibility | `cat /etc/redhat-release`, `uname -r` | Confirm system specifications |
+
+---
+
+## RHCSA Exam Strategy
+1. **Always start with these 8 commands** on any exam scenario
+2. **Document baseline state** before making changes
+3. **Verify changes persist** after reboot
+4. **Use specific PIDs and service names** in answers
+5. **Understand the why** behind each output - examiners test comprehension, not memorization

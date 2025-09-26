@@ -1,0 +1,55 @@
+LAB 01: FILE COPY OPERATIONS
+
+PURPOSE: Learn cp command variations for copying files and directories
+
+SETUP:
+- Run: ./setup.sh
+- Verify: tree (should show source/, work/, backup/, temp/ directories)
+
+STARTING STATE:
+source/     - contains app.conf, manual.txt, system.log
+work/       - contains draft.txt  
+backup/     - empty
+temp/       - empty
+
+EXERCISES:
+
+Exercise 1: Basic Copy
+Task: Copy app.conf from source to backup directory
+
+Exercise 2: Copy with Rename  
+Task: Copy manual.txt from source to backup, rename it to "user-guide.txt"
+
+Exercise 3: Copy Multiple Files
+Task: Copy all .txt files from source to temp directory
+
+Exercise 4: Copy All Files
+Task: Copy everything from source directory to backup directory
+
+Exercise 5: Verify Original Files Remain
+Task: Confirm source directory still contains all original files
+
+
+======== SOLUTIONS BELOW (try exercises first) ========
+
+Exercise 1 Solution:
+Command: cp source/app.conf backup/
+Check: ls backup/
+
+Exercise 2 Solution:
+Command: cp source/manual.txt backup/user-guide.txt
+Check: ls backup/
+
+Exercise 3 Solution:
+Command: cp source/*.txt temp/
+Check: ls temp/
+
+Exercise 4 Solution:
+Command: cp source/* backup/
+Check: ls backup/
+
+Exercise 5 Solution:
+Command: ls source/
+Check: All original files should still be present
+
+RESET: Run ./setup.sh to start over

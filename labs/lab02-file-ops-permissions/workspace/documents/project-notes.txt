@@ -1,0 +1,4 @@
+PROJECT NOTES - RHCSA Practice Lab
+==================================
+This file contains important project documentation.
+Tasks to complete: file organization and permission management.
