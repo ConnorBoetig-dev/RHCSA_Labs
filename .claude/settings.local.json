@@ -3,7 +3,8 @@
     "allow": [
       "Bash(mkdir:*)",
       "Bash(chmod:*)",
-      "Bash(./check.sh:*)"
+      "Bash(./check.sh:*)",
+      "Bash(./setup.sh)"
     ],
     "deny": [],
     "ask": []

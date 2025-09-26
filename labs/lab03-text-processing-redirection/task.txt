@@ -1,0 +1,92 @@
+================================================================================
+                    RHCSA Lab 03 - Text Processing and Redirection
+================================================================================
+
+SCENARIO:
+You are a system administrator analyzing server logs to create security and
+performance reports for management review. Various log files containing system,
+security, access, and application data need to be processed and organized using
+Linux text processing tools and redirection operators.
+
+PRE-REQUISITES:
+- Run ./setup.sh to initialize the lab environment
+- Use 'tree' command to explore the directory structure
+- All tasks must be completed in order
+
+================================================================================
+TASKS TO COMPLETE:
+================================================================================
+
+1. COPY LOG FILES FOR ANALYSIS
+   Copy all log files from logs/ to workspace/analysis/ for processing
+   Preserve original files for reference
+
+2. ANALYZE FAILED LOGIN ATTEMPTS
+   Search security.log for "FAILED" login attempts
+   Save the count (number only) to workspace/reports/failed-count.txt
+
+3. EXTRACT UNIQUE IP ADDRESSES
+   Extract all unique IP addresses from access.log
+   Save sorted list to workspace/reports/ip-addresses.txt
+
+4. CONSOLIDATE ERROR ENTRIES
+   Find all ERROR entries across ALL log files
+   Append them to workspace/reports/all-errors.txt
+   Include the source filename for each error
+
+5. CREATE ERROR SUMMARY REPORT
+   Generate a summary of the top 5 most common error types
+   Use grep, sort, and uniq pipeline commands
+   Save to workspace/reports/error-summary.txt
+   Format: count and error description
+
+6. CAPTURE PROCESSING ERRORS
+   Redirect any command errors during your processing
+   Save stderr output to workspace/reports/processing-errors.txt
+   Test with an intentional error command
+
+7. SECURE REPORT FILES
+   Set permissions 640 on all files in workspace/reports/
+   Verify permissions are correctly applied
+
+8. MOVE COMPLETED REPORTS
+   Move all reports from workspace/reports/ to results/
+   Ensure workspace/reports/ is empty after moving
+
+9. ARCHIVE ORIGINAL LOGS
+   Copy all original log files from logs/ to archive/
+   Set permissions 644 on all archived files
+   Preserve timestamps if possible
+
+================================================================================
+VERIFICATION:
+================================================================================
+Run ./check.sh to verify all tasks are completed correctly
+
+Expected outcomes:
+- All logs copied to workspace/analysis/
+- Failed login count in results/failed-count.txt
+- Unique IPs listed in results/ip-addresses.txt
+- All errors consolidated in results/all-errors.txt
+- Top 5 error summary in results/error-summary.txt
+- Processing errors captured (if any) in results/processing-errors.txt
+- All reports in results/ with correct permissions
+- Original logs archived with 644 permissions
+
+================================================================================
+HINTS:
+================================================================================
+- Use grep -c for counting matches
+- IP addresses in access.log follow a pattern at the start of each line
+- Use >> for appending, > for overwriting
+- Remember 2> redirects stderr
+- Pipeline order matters: grep | sort | uniq -c | sort -rn | head
+- Use ls -l to verify permissions
+- The cp command can preserve attributes with -p flag
+
+================================================================================
+RESET:
+================================================================================
+Run ./setup.sh anytime to reset the lab to its initial state
+
+Good luck!

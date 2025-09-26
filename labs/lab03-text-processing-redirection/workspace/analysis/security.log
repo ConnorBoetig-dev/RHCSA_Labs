@@ -1,0 +1,20 @@
+2024-01-15 07:30:15 AUTH SUCCESS User admin logged in from 192.168.1.100
+2024-01-15 07:32:45 AUTH FAILED Invalid password for user root from 203.45.67.89
+2024-01-15 07:33:12 AUTH FAILED Invalid password for user root from 203.45.67.89
+2024-01-15 07:33:48 AUTH FAILED Invalid password for user admin from 203.45.67.89
+2024-01-15 07:34:23 SECURITY IP 203.45.67.89 blocked due to multiple failed attempts
+2024-01-15 07:45:22 AUTH SUCCESS User developer logged in from 10.0.0.45
+2024-01-15 07:47:33 SUDO User developer executed sudo command: apt update
+2024-01-15 07:52:11 AUTH FAILED Unknown user postgres from 198.23.45.167
+2024-01-15 07:52:45 AUTH FAILED Unknown user mysql from 198.23.45.167
+2024-01-15 07:53:20 AUTH FAILED Invalid password for user admin from 198.23.45.167
+2024-01-15 07:58:09 AUTH SUCCESS User operator logged in from 192.168.1.105
+2024-01-15 08:05:14 SSH Connection from 45.67.89.123 rejected - invalid key
+2024-01-15 08:10:22 AUTH SUCCESS User admin logged in from 192.168.1.100
+2024-01-15 08:12:45 SUDO User admin executed sudo command: systemctl restart nginx
+2024-01-15 08:15:33 AUTH FAILED Invalid password for user test from 156.78.90.234
+2024-01-15 08:16:01 AUTH FAILED Invalid password for user guest from 156.78.90.234
+2024-01-15 08:20:15 AUTH SUCCESS User monitor logged in from 10.0.0.78
+2024-01-15 08:25:44 AUTH FAILED Expired password for user olduser from 192.168.1.200
+2024-01-15 08:30:22 SSH Key added for user developer
+2024-01-15 08:35:11 AUTH SUCCESS User admin logged in from 172.16.0.50
